@@ -117,7 +117,7 @@ void Statistics::saveImage(std::string target){
 	cv::Mat mat(h, w, cv::DataType<uint8_t>::type);
 	cv::Mat dst(h/2, w/2, cv::DataType<uint8_t>::type);
 	mat.data = image;
-	cv::resize(mat, dst, mat.size());
+	cv::resize(mat, dst, dst.size());
 	imwrite( target.c_str(), dst );
 }
 
