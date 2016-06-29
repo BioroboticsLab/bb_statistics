@@ -14,6 +14,9 @@
 #include "Settings/Settings.h"
 #include <opencv2/opencv.hpp>
 #include <string>
+#include <unistd.h>
+
+#include <stdlib.h>     /* system, NULL, EXIT_FAILURE */
 
 int main(int argc, char *argv[])
 {
@@ -31,6 +34,14 @@ int main(int argc, char *argv[])
 	FILE*				outfile = fopen(outfileStr.c_str(),"ab");
 	FILE* 				fp 		= fopen("refIm.jpg", "r");
 
+	std::string outFlip[4];
+	outFlip[0] = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET1);
+	outFlip[1] = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET2);
+	outFlip[2] = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET3);
+	outFlip[3] = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET4);
+	int doanalysis = set->getValueOfParam<int>(IMSTATISTICS::DOANALYSIS);
+	int doimsave = set->getValueOfParam<int>(IMSTATISTICS::DOIMSAVE);
+
 	beeStatistics::Statistics *stat[4];
 	for (int i=0; i<4; i++)
 		stat[i] = new beeStatistics::Statistics();
@@ -46,13 +57,22 @@ int main(int argc, char *argv[])
 		if (qconf[i].enabled == 1)
 			stat[i]->configShdMem(&qconf[i]);
 
+
 	while (true){
-		//Pulse(5) signals analysis thread is alive
-		//_Dog->pulse(5);
-		for (int i=0; i<4; i++)
-			if (qconf[i].enabled == 1)
-				stat[i]->analyse(&ref,outfile);
-		//TODO: sleep
+		for (int i=0; i<4; i++){
+			if (qconf[i].enabled == 1){
+				if (doanalysis==1)
+					stat[i]->analyse(&ref,outfile);
+
+				if (doimsave==1){
+					stat[i]->saveImage(outFlip[i]);
+					//Ok, this is cheap, but it works...
+					std::string cmd = "chmod 755 "+outFlip[i];
+					system (cmd.c_str());
+				}
+			}
+		}
+		sleep(60);
 	}
 
 	//Well, just in case...

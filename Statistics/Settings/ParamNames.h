@@ -17,6 +17,13 @@ namespace IMSTATISTICS {
 	}
 
 	static const std::string BUFFER					= "IMSTATISTICS.BUFFER";
+
+	static const std::string DOANALYSIS				= "IMSTATISTICS.DOANALYSIS";
+	static const std::string DOIMSAVE				= "IMSTATISTICS.DOIMSAVE";
+	static const std::string TARGET1				= "IMSTATISTICS.TARGET1";
+	static const std::string TARGET2				= "IMSTATISTICS.TARGET2";
+	static const std::string TARGET3				= "IMSTATISTICS.TARGET3";
+	static const std::string TARGET4				= "IMSTATISTICS.TARGET4";
 }
 
 

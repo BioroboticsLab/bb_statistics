@@ -21,6 +21,12 @@ const boost::property_tree::ptree SettingsIAC::getDefaultParams() {
 	    pt.add_child(IMSTATISTICS::BUFFER, hd);
 	}
 
+	pt.put(IMSTATISTICS::DOANALYSIS, 1);
+	pt.put(IMSTATISTICS::DOIMSAVE, 1);
+	pt.put(IMSTATISTICS::TARGET1, "/mnt/flip/cam0.jpg");
+	pt.put(IMSTATISTICS::TARGET2, "/mnt/flip/cam1.jpg");
+	pt.put(IMSTATISTICS::TARGET3, "/mnt/flip/cam2.jpg");
+	pt.put(IMSTATISTICS::TARGET4, "/mnt/flip/cam3.jpg");
 
 	return pt;
 }

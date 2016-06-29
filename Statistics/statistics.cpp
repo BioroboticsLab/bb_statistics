@@ -111,6 +111,16 @@ void Statistics::grabRecentImage(){
         mutex->unlock();
 }
 
+void Statistics::saveImage(std::string target){
+	int w = qconf->width;
+	int h = qconf->height;
+	cv::Mat mat(h, w, cv::DataType<uint8_t>::type);
+	cv::Mat dst(h/2, w/2, cv::DataType<uint8_t>::type);
+	mat.data = image;
+	cv::resize(mat, dst, mat.size());
+	imwrite( target.c_str(), dst );
+}
+
 void Statistics::analyse(cv::Mat *ref, FILE *outfile) {
 	char outstr[512];
 	int w = qconf->width;

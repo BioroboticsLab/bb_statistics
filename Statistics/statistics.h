@@ -30,16 +30,17 @@ public:
 	int height;
 	int lockpos;
 	int memsize;
+	unsigned char *image;
 
 	void analyse(cv::Mat *ref, FILE *outfile);
 	void configShdMem(EncoderQualityConfig *p_qconf);
+	void saveImage(std::string target);
 
 private:
 	
 	key_t key;
 	int shmid;
 	char *data;
-	unsigned char *image;
 	int mode;
 	boost::interprocess::interprocess_mutex *mutex;
 	EncoderQualityConfig *qconf;

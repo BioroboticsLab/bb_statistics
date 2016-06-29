@@ -17,7 +17,10 @@ message("QT5_INCLUDE_DIRS is ${Qt5Core_INCLUDE_DIRS}")
 
 
 if("${CMAKE_SYSTEM}" MATCHES "Linux")
-	set(INCLUDE_DIRS /usr/local/include ${Qt5Core_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
+	set(INCLUDE_DIRS 
+		/usr/local/include 
+		${Qt5Core_INCLUDE_DIRS} 
+		${OpenCV_INCLUDE_DIRS} )
 	set(LIBS -L/usr/local/lib ${LIBS} pthread dl rt )
 	
 	message("Configuring for linux...")
