@@ -111,20 +111,14 @@ void Statistics::saveImage(std::string target){
     int w = _qconf->width;
     int h = _qconf->height;
     SettingsIAC *set = SettingsIAC::getInstance();
-    int scalingfactor = set->getValueOfParam<int>(IMSTATISTICS::SCALINGFACTOR);
-    if (scalingfactor != 1){
-        cv::Mat mat(h, w, cv::DataType<uint8_t>::type);
-        cv::Mat dst(h/scalingfactor, w/scalingfactor, cv::DataType<uint8_t>::type);
-        mat.data = _image;
-        cv::resize(mat, dst, dst.size());
-        imwrite( target.c_str(), dst );
-    }
-    else{
-        cv::Mat mat(h, w, cv::DataType<uint8_t>::type);
-        mat.data = _image;
-        imwrite( target.c_str(), mat );
-    }
+    double scalingfactor = set->getValueOfParam<double>(IMSTATISTICS::SCALINGFACTOR);
+    cv::Mat mat(h, w, cv::DataType<uint8_t>::type);
 
+    cv::Mat dst(h/scalingfactor, w/scalingfactor, cv::DataType<uint8_t>::type);
+    mat.data = _image;
+    cv::resize(mat, dst, dst.size());
+    imwrite( target.c_str(), dst );
+    
 }
 
 void Statistics::analyse(cv::Mat *ref, FILE *outfile) {

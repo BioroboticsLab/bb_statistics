@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     outFlip[3]      = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET4);
     int doanalysis  = set->getValueOfParam<int>(IMSTATISTICS::DOANALYSIS);
     int doimsave    = set->getValueOfParam<int>(IMSTATISTICS::DOIMSAVE);
-    outfileStr      = set->getValueOfParam<int>(IMSTATISTICS::ANALYSISFILE);
+    outfileStr      = set->getValueOfParam<std::string>(IMSTATISTICS::ANALYSISFILE);
 
     beeStatistics::Statistics *stat[4];
     for (int i = 0; i < 4; i++)
@@ -63,15 +63,15 @@ int main(int argc, char *argv[]) {
 
                 stat[i]->grabRecentImage();
 
-                if (doanalysis == 1)
-                    stat[i]->analyse(&ref, outfile);
-
                 if (doimsave == 1) {
                     stat[i]->saveImage(outFlip[i]);
                     //Ok, this is cheap, but it works...
                     std::string cmd = "chmod 755 " + outFlip[i];
                     system(cmd.c_str());
                 }
+
+                if (doanalysis == 1)
+                    stat[i]->analyse(&ref, outfile);
             }
         }
         sleep(60);

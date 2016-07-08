@@ -11,12 +11,12 @@ namespace IMSTATISTICS {
 namespace BUFFERCONF{
 static const std::string CAMID                  = "CAMID";
 static const std::string SERIAL                 = "SERIAL";
-static const std::string ENABLED 			    = "ENABLED";
+static const std::string ENABLED                = "ENABLED";
 static const std::string VIDEO_WIDTH            = "VIDEO_WIDTH";
 static const std::string VIDEO_HEIGHT           = "VIDEO_HEIGHT";
 }
 
-static const std::string BUFFER					= "IMSTATISTICS.BUFFER";
+static const std::string BUFFER                 = "IMSTATISTICS.BUFFER";
 
 static const std::string DOANALYSIS             = "IMSTATISTICS.DOANALYSIS";
 static const std::string DOIMSAVE               = "IMSTATISTICS.DOIMSAVE";
