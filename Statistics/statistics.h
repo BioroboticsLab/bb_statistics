@@ -44,24 +44,24 @@ public:
     int _memsize;
 
     //! pointer to the image data
-	unsigned char *_image;
+    unsigned char *_image;
 
-	/**
-	 * @brief Do all image analysis: Noise, SMD, contrast, variance
-	 */
-	void analyse(cv::Mat *ref, FILE *outfile);
+    /**
+    * @brief Do all image analysis: Noise, SMD, contrast, variance
+    */
+    void analyse(cv::Mat *ref, std::string outfileStr);
 
-	void configShdMem(EncoderQualityConfig *p_qconf);
+    void configShdMem(EncoderQualityConfig *p_qconf);
 
-	/**
-	 * @brief Saves the local image to a file.
-	 *
-	 * Source image is _image. To update the local
-	 * image call grabRecentImage()
-	 *
-	 *
-	 */
-	void saveImage(std::string target);
+    /**
+     * @brief Saves the local image to a file.
+     *
+     * Source image is _image. To update the local
+     * image call grabRecentImage()
+     *
+     *
+     */
+    void saveImage(std::string target);
 
     /**
      * @brief Copy most recent image from shared to local memory.
@@ -82,7 +82,7 @@ private:
     //! Pointer to the memory segment
     char            *_data;
 
-	EncoderQualityConfig *_qconf;
+    EncoderQualityConfig *_qconf;
 
     /**
      * @brief Gets the contrast ratio of a Matrix
@@ -183,14 +183,14 @@ private:
      * @param The image to analyse
      * @return Noise estimate
      */
-	double noiseEstimate(cv::Mat image);
+     double noiseEstimate(cv::Mat image);
 
-	/**
-	 * @brief Gets current timestamp as YYYYMMDDhhmmss_iiiiii
-	 *
-	 * @return The timestamp
-	 */
-	std::string getTimestamp();
+     /**
+     * @brief Gets current timestamp as YYYYMMDDhhmmss_iiiiii
+     *
+     * @return The timestamp
+     */
+     std::string getTimestamp();
 };
 
 }

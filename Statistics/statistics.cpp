@@ -121,7 +121,7 @@ void Statistics::saveImage(std::string target){
     
 }
 
-void Statistics::analyse(cv::Mat *ref, FILE *outfile) {
+void Statistics::analyse(cv::Mat *ref, std::string outfileStr) {
     char outstr[512];
     int w = _qconf->width;
     int h = _qconf->height;
@@ -133,8 +133,11 @@ void Statistics::analyse(cv::Mat *ref, FILE *outfile) {
     double noise = noiseEstimate(mat);
     std::string ts = getTimestamp();
     sprintf(outstr, "Cam_%d_%s: %f,\t%f,\t%f,\t%f\n", _qconf->camid, ts.c_str(), smd, variance, contrast, noise);
+
+    FILE* outfile = fopen(outfileStr.c_str(), "ab");
     fwrite(outstr,sizeof(char), strlen(outstr),outfile);
     fflush(outfile);
+    fclose(outfile);
 }
 
 double Statistics::getContrastRatio(Mat &image){

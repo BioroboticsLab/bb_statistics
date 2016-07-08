@@ -38,7 +38,6 @@ int main(int argc, char *argv[]) {
     int doimsave    = set->getValueOfParam<int>(IMSTATISTICS::DOIMSAVE);
     outfileStr      = set->getValueOfParam<std::string>(IMSTATISTICS::ANALYSISFILE);
 
-    FILE* outfile = fopen(outfileStr.c_str(), "ab");
     FILE* fp = fopen("refIm.jpg", "r");
 
     beeStatistics::Statistics *stat[4];
@@ -71,14 +70,11 @@ int main(int argc, char *argv[]) {
                 }
 
                 if (doanalysis == 1)
-                    stat[i]->analyse(&ref, outfile);
+                    stat[i]->analyse(&ref, outfileStr);
             }
         }
         sleep(60);
     }
 
-    //Well, just in case...
-    fclose(outfile);
-
-    return 0; //app.exec();
+    return 0;
 }
