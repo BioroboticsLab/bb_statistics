@@ -103,6 +103,7 @@ void Statistics::configShdMem(EncoderQualityConfig *p_qconf){
 
 void Statistics::grabRecentImage(){
     _mutex->lock();
+    _timestamp = getTimestamp();
     memcpy(_image,(const uchar *)_data, _width*_height);
     _mutex->unlock();
 }
@@ -131,8 +132,8 @@ void Statistics::analyse(cv::Mat *ref, std::string outfileStr) {
     double variance = getVariance(mat);
     double contrast = avgHistDifference(*ref, mat);
     double noise = noiseEstimate(mat);
-    std::string ts = getTimestamp();
-    sprintf(outstr, "Cam_%d_%s\t%f\t%f\t%f\t%f\n", _qconf->camid, ts.c_str(), smd, variance, contrast, noise);
+
+    sprintf(outstr, "Cam_%d_%s\t%f\t%f\t%f\t%f\n", _qconf->camid, _timestamp.c_str(), smd, variance, contrast, noise);
 
     FILE* outfile = fopen(outfileStr.c_str(), "ab");
     fwrite(outstr,sizeof(char), strlen(outstr),outfile);

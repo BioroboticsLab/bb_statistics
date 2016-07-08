@@ -84,6 +84,9 @@ private:
 
     EncoderQualityConfig *_qconf;
 
+    //Timestamp used on analysis
+    std::string _timestamp;
+
     /**
      * @brief Gets the contrast ratio of a Matrix
      *
