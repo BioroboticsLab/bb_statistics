@@ -29,9 +29,6 @@ int main(int argc, char *argv[]) {
 
     cv::Mat ref;
 
-    FILE* outfile = fopen(outfileStr.c_str(), "ab");
-    FILE* fp = fopen("refIm.jpg", "r");
-
     std::string outFlip[4];
     outFlip[0]      = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET1);
     outFlip[1]      = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET2);
@@ -40,6 +37,9 @@ int main(int argc, char *argv[]) {
     int doanalysis  = set->getValueOfParam<int>(IMSTATISTICS::DOANALYSIS);
     int doimsave    = set->getValueOfParam<int>(IMSTATISTICS::DOIMSAVE);
     outfileStr      = set->getValueOfParam<std::string>(IMSTATISTICS::ANALYSISFILE);
+
+    FILE* outfile = fopen(outfileStr.c_str(), "ab");
+    FILE* fp = fopen("refIm.jpg", "r");
 
     beeStatistics::Statistics *stat[4];
     for (int i = 0; i < 4; i++)
