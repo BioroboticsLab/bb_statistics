@@ -57,10 +57,12 @@ int main(int argc, char *argv[]) {
             stat[i]->configShdMem(&qconf[i]);
 
     while (true) {
+        for (int i = 0; i < 4; i++) 
+            if (qconf[i].enabled == 1)
+                stat[i]->grabRecentImage();
+
         for (int i = 0; i < 4; i++) {
             if (qconf[i].enabled == 1) {
-
-                stat[i]->grabRecentImage();
 
                 if (doimsave == 1) {
                     stat[i]->saveImage(outFlip[i]);

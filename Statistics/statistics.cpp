@@ -132,12 +132,16 @@ void Statistics::analyse(cv::Mat *ref, std::string outfileStr) {
     double contrast = avgHistDifference(*ref, mat);
     double noise = noiseEstimate(mat);
     std::string ts = getTimestamp();
-    sprintf(outstr, "Cam_%d_%s: %f,\t%f,\t%f,\t%f\n", _qconf->camid, ts.c_str(), smd, variance, contrast, noise);
+    sprintf(outstr, "Cam_%d_%s\t%f\t%f\t%f\t%f\n", _qconf->camid, ts.c_str(), smd, variance, contrast, noise);
 
     FILE* outfile = fopen(outfileStr.c_str(), "ab");
     fwrite(outstr,sizeof(char), strlen(outstr),outfile);
     fflush(outfile);
     fclose(outfile);
+
+    //Change permissions
+    std::string cmd = "chmod 755 " + outfileStr;
+    system(cmd.c_str());
 }
 
 double Statistics::getContrastRatio(Mat &image){
