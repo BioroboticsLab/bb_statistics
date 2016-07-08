@@ -23,39 +23,173 @@ class Statistics
 public:
 	Statistics();
 
-	int curID;
+	int _curID;
 
-	////////////////////////SHARED MEMORY//////////////////////
-	int width;
-	int height;
-	int lockpos;
-	int memsize;
-	unsigned char *image;
+    ////////////////////////SHARED MEMORY//////////////////////
 
+    //! Width of the image in shared memory
+    int _width;
+
+    //! Height of the image in shared memory
+    int _height;
+
+    /**
+     * @brief Position of the IP mutex in shared memory
+     *
+     * It is located after the image, so _height * _width
+     */
+    int _lockpos;
+
+    //! Total size of the shared memory.
+    int _memsize;
+
+    //! pointer to the image data
+	unsigned char *_image;
+
+	/**
+	 * @brief Do all image analysis: Noise, SMD, contrast, variance
+	 */
 	void analyse(cv::Mat *ref, FILE *outfile);
+
 	void configShdMem(EncoderQualityConfig *p_qconf);
+
+	/**
+	 * @brief Saves the local image to a file.
+	 *
+	 * Source image is _image. To update the local
+	 * image call grabRecentImage()
+	 *
+	 *
+	 */
 	void saveImage(std::string target);
+
+    /**
+     * @brief Copy most recent image from shared to local memory.
+     */
+    void grabRecentImage();
 
 private:
 	
-	key_t key;
-	int shmid;
-	char *data;
-	int mode;
-	boost::interprocess::interprocess_mutex *mutex;
-	EncoderQualityConfig *qconf;
+    //! Interprocess mutex
+    boost::interprocess::interprocess_mutex *_mutex;
 
-	void grabRecentImage();
-	void getContrastRatio(cv::Mat &image);
-	double getVariance(cv::Mat &image);
-	double sumModulusDifference(cv::Mat *image);
-	double DCT(double k1, double k2, int m, int n, cv::Mat &image);
-	double SSF(double d);
-	double STilde(int m, int n,cv::Mat &image);
-	double S_PSM(cv::Mat *image);
+    //! Shared memory key
+    key_t           _key;
+
+    //! Shared memory id
+    int             _shmid;
+
+    //! Pointer to the memory segment
+    char            *_data;
+
+	EncoderQualityConfig *_qconf;
+
+    /**
+     * @brief Gets the contrast ratio of a Matrix
+     *
+     * This might be useless for large real images, as
+     * the ratio will always be maximum. Pick image sections.
+     *
+     * @param The input image
+     * @return Contrast ratio
+     */
+    double getContrastRatio(cv::Mat &image);
+
+    /**
+     * @brief Gets the variance of an image.
+     *
+     * @param The image
+     * @return The variance
+     */
+    double getVariance(cv::Mat &image);
+
+    /**
+     * @brief Gets the Sum Modulus Difference of an image (SMD).
+     *
+     * See the following papers for info:
+     * Practical issues in pixel-based autofocusing for machine vision
+     * Echtzeitfhige Extraktion scharfer Standbilder in der Video-Koloskopie
+     *
+     * @param The image
+     * @return The SMD
+     */
+    double sumModulusDifference(cv::Mat *image);
+
+    /**
+     * @brief A helper function of S_PSM.
+     *
+     * See paper for detail:
+     * Echtzeitfhige Extraktion scharfer Standbilder in der Video-Koloskopie
+     * Parameters are as per paper
+     */
+    double DCT(double k1, double k2, int m, int n, cv::Mat &image);
+
+    /**
+     * @brief A helper function of S_PSM.
+     *
+     * See paper for detail:
+     * Echtzeitfhige Extraktion scharfer Standbilder in der Video-Koloskopie
+     * Parameters are as per paper
+     */
+    double SSF(double d);
+
+    /**
+     * @brief A helper function of S_PSM.
+     *
+     * See paper for detail:
+     * Echtzeitfhige Extraktion scharfer Standbilder in der Video-Koloskopie
+     * Parameters are as per paper
+     */
+    double STilde(int m, int n,cv::Mat &image);
+
+    /**
+     * @brief Calculates the Perceptual Sharpness Metric
+     *
+     * See paper for detail:
+     * Echtzeitfhige Extraktion scharfer Standbilder in der Video-Koloskopie
+     *
+     * @param The image
+     * @return The PSM
+     */
+    double S_PSM(cv::Mat *image);
+
+
+    /**
+     * @brief Gets a colour histogram. Helper of avgHistDifference
+     *
+     * Use grayscale images only.
+     *
+     * @param The image to get the histogram from
+     * @param The histogram
+     */
 	cv::Mat getHist(cv::Mat *M);
+
+    /**
+     * @brief Calculates the average difference of colour histograms.
+     *
+     * @param First image
+     * @param Second image
+     * @return Avg difference
+     */
 	double avgHistDifference(cv::Mat reference, cv::Mat measure);
+
+    /**
+     * @brief Estimates the noise in an image
+     *
+     * Applies a median filter and gets the SSD.
+     * See thesis for details:
+     * Masters Thesis Hauke Moenck
+     *
+     * @param The image to analyse
+     * @return Noise estimate
+     */
 	double noiseEstimate(cv::Mat image);
+
+	/**
+	 * @brief Gets current timestamp as YYYYMMDDhhmmss_iiiiii
+	 *
+	 * @return The timestamp
+	 */
 	std::string getTimestamp();
 };
 

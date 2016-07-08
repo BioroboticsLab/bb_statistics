@@ -1,14 +1,13 @@
-
 /****************************************************************************
-**
-** Contact: moenck@zedat.fu-berlin.de
-**
-** Main file of the image viewer
-**
-** Major parts taken from:
-** http://doc.qt.io/qt-5/qtwidgets-widgets-imageviewer-main-cpp.html
-**
-****************************************************************************/
+ **
+ ** Contact: moenck@zedat.fu-berlin.de
+ **
+ ** Main file of the image viewer
+ **
+ ** Major parts taken from:
+ ** http://doc.qt.io/qt-5/qtwidgets-widgets-imageviewer-main-cpp.html
+ **
+ ****************************************************************************/
 
 #include "statistics.h"
 #include "Settings/Settings.h"
@@ -18,65 +17,68 @@
 
 #include <stdlib.h>     /* system, NULL, EXIT_FAILURE */
 
-int main(int argc, char *argv[])
-{
-   // QApplication app(argc, argv);
-	SettingsIAC::setConf("configStatistics.json");
-	SettingsIAC *set = SettingsIAC::getInstance();
-	EncoderQualityConfig qconf[4];
-	std::string outfileStr = "analysis.txt";
+int main(int argc, char *argv[]) {
+    // QApplication app(argc, argv);
+    SettingsIAC::setConf("configStatistics.json");
+    SettingsIAC *set = SettingsIAC::getInstance();
+    EncoderQualityConfig qconf[4];
+    std::string outfileStr = "analysis.txt";
 
-	for (int i=0; i<4; i++)
-		qconf[i] = set->getBufferConf(i);
-    
-	cv::Mat 			ref;
+    for (int i = 0; i < 4; i++)
+        qconf[i] = set->getBufferConf(i);
 
-	FILE*				outfile = fopen(outfileStr.c_str(),"ab");
-	FILE* 				fp 		= fopen("refIm.jpg", "r");
+    cv::Mat ref;
 
-	std::string outFlip[4];
-	outFlip[0] = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET1);
-	outFlip[1] = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET2);
-	outFlip[2] = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET3);
-	outFlip[3] = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET4);
-	int doanalysis = set->getValueOfParam<int>(IMSTATISTICS::DOANALYSIS);
-	int doimsave = set->getValueOfParam<int>(IMSTATISTICS::DOIMSAVE);
+    FILE* outfile = fopen(outfileStr.c_str(), "ab");
+    FILE* fp = fopen("refIm.jpg", "r");
 
-	beeStatistics::Statistics *stat[4];
-	for (int i=0; i<4; i++)
-		stat[i] = new beeStatistics::Statistics();
+    std::string outFlip[4];
+    outFlip[0]      = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET1);
+    outFlip[1]      = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET2);
+    outFlip[2]      = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET3);
+    outFlip[3]      = set->getValueOfParam<std::string>(IMSTATISTICS::TARGET4);
+    int doanalysis  = set->getValueOfParam<int>(IMSTATISTICS::DOANALYSIS);
+    int doimsave    = set->getValueOfParam<int>(IMSTATISTICS::DOIMSAVE);
+    outfileStr      = set->getValueOfParam<int>(IMSTATISTICS::ANALYSISFILE);
 
-	if (fp) {
-		ref = cv::imread( "refIm.jpg", CV_LOAD_IMAGE_GRAYSCALE );
-		fclose(fp);
-	} else {
-		std::cout << "Warning: not found reference image refIm.jpg."<<std::endl;
-	}
+    beeStatistics::Statistics *stat[4];
+    for (int i = 0; i < 4; i++)
+        stat[i] = new beeStatistics::Statistics();
 
-	for (int i=0; i<4; i++)
-		if (qconf[i].enabled == 1)
-			stat[i]->configShdMem(&qconf[i]);
+    if (fp) {
+        ref = cv::imread("refIm.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+        fclose(fp);
+    } else {
+        std::cout << "Warning: not found reference image refIm.jpg."
+                << std::endl;
+    }
 
+    for (int i = 0; i < 4; i++)
+        if (qconf[i].enabled == 1)
+            stat[i]->configShdMem(&qconf[i]);
 
-	while (true){
-		for (int i=0; i<4; i++){
-			if (qconf[i].enabled == 1){
-				if (doanalysis==1)
-					stat[i]->analyse(&ref,outfile);
+    while (true) {
+        for (int i = 0; i < 4; i++) {
+            if (qconf[i].enabled == 1) {
 
-				if (doimsave==1){
-					stat[i]->saveImage(outFlip[i]);
-					//Ok, this is cheap, but it works...
-					std::string cmd = "chmod 755 "+outFlip[i];
-					system (cmd.c_str());
-				}
-			}
-		}
-		sleep(60);
-	}
+                stat[i]->grabRecentImage();
 
-	//Well, just in case...
-	fclose(outfile);
+                if (doanalysis == 1)
+                    stat[i]->analyse(&ref, outfile);
 
-    return 0;//app.exec();
+                if (doimsave == 1) {
+                    stat[i]->saveImage(outFlip[i]);
+                    //Ok, this is cheap, but it works...
+                    std::string cmd = "chmod 755 " + outFlip[i];
+                    system(cmd.c_str());
+                }
+            }
+        }
+        sleep(60);
+    }
+
+    //Well, just in case...
+    fclose(outfile);
+
+    return 0; //app.exec();
 }
