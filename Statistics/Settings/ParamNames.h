@@ -21,6 +21,7 @@ static const std::string BUFFER                 = "IMSTATISTICS.BUFFER";
 static const std::string DOANALYSIS             = "IMSTATISTICS.DOANALYSIS";
 static const std::string DOIMSAVE               = "IMSTATISTICS.DOIMSAVE";
 static const std::string ANALYSISFILE           = "IMSTATISTICS.ANALYSISFILE";
+static const std::string ANALYSISFILEMIRROR     = "IMSTATISTICS.ANALYSISFILEMIRROR";
 static const std::string SCALINGFACTOR          = "IMSTATISTICS.SCALINGFACTOR";
 static const std::string TARGET1                = "IMSTATISTICS.TARGET1";
 static const std::string TARGET2                = "IMSTATISTICS.TARGET2";

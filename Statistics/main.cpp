@@ -11,6 +11,7 @@
 
 #include "statistics.h"
 #include "Settings/Settings.h"
+#include "Settings/utility.h"
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <unistd.h>
@@ -23,6 +24,7 @@ int main(int argc, char *argv[]) {
     SettingsIAC *set = SettingsIAC::getInstance();
     EncoderQualityConfig qconf[4];
     std::string outfileStr = "analysis.txt";
+    std::string outfileMirroStr = "analysisMirror.txt";
 
     for (int i = 0; i < 4; i++)
         qconf[i] = set->getBufferConf(i);
@@ -37,6 +39,7 @@ int main(int argc, char *argv[]) {
     int doanalysis  = set->getValueOfParam<int>(IMSTATISTICS::DOANALYSIS);
     int doimsave    = set->getValueOfParam<int>(IMSTATISTICS::DOIMSAVE);
     outfileStr      = set->getValueOfParam<std::string>(IMSTATISTICS::ANALYSISFILE);
+    outfileMirroStr = set->getValueOfParam<std::string>(IMSTATISTICS::ANALYSISFILEMIRROR);
 
     FILE* fp = fopen("refIm.jpg", "r");
 
@@ -66,16 +69,14 @@ int main(int argc, char *argv[]) {
 
                 if (doimsave == 1) {
                     stat[i]->saveImage(outFlip[i]);
-                    //Ok, this is cheap, but it works...
-                    std::string cmd = "chmod 755 " + outFlip[i];
-                    system(cmd.c_str());
+                    simpleChmod(outFlip[i]);
                 }
 
                 if (doanalysis == 1)
-                    stat[i]->analyse(&ref, outfileStr);
+                    stat[i]->analyse(&ref, outfileStr, outfileMirroStr);
             }
         }
-        sleep(60);
+        sleep(20);
     }
 
     return 0;

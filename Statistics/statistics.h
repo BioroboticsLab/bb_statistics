@@ -48,9 +48,21 @@ public:
 
     /**
     * @brief Do all image analysis: Noise, SMD, contrast, variance
+    *
+    * @param Reference image for contrast calculation
+    * @param Analysis output file
+    * @param Mirror of the output
     */
-    void analyse(cv::Mat *ref, std::string outfileStr);
+    void analyse(cv::Mat *ref, std::string outfileStr, std::string outfileMirrorStr);
 
+    /**
+    * @brief Sets up the shared memory enviroment.
+    *
+    * Opens all 4 shared memory chunks, one for each camera.
+    * Unused chunks may remain blank.
+    *
+    * @param Configuration of the shared memory
+    */
     void configShdMem(EncoderQualityConfig *p_qconf);
 
     /**

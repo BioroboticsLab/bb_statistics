@@ -15,8 +15,8 @@
 #include <iostream>
 
    /*
-        * For details see bb_imgAcquistion application
-        */
+    * For details see bb_imgAcquistion application
+    */
 typedef struct _EncoderQualityConfig
 {
 	int camid;

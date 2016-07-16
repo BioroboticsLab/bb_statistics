@@ -20,6 +20,9 @@
 #include <iostream>
 #include <unistd.h> //usleep
 
+
+#include "Settings/utility.h"
+
 #include <math.h>       /* cos */
 #include <vector>
 #include <algorithm>
@@ -122,7 +125,7 @@ void Statistics::saveImage(std::string target){
     
 }
 
-void Statistics::analyse(cv::Mat *ref, std::string outfileStr) {
+void Statistics::analyse(cv::Mat *ref, std::string outfileStr, std::string outfileMirrorStr) {
     char outstr[512];
     int w = _qconf->width;
     int h = _qconf->height;
@@ -136,13 +139,30 @@ void Statistics::analyse(cv::Mat *ref, std::string outfileStr) {
     sprintf(outstr, "Cam_%d_%s\t%f\t%f\t%f\t%f\n", _qconf->camid, _timestamp.c_str(), smd, variance, contrast, noise);
 
     FILE* outfile = fopen(outfileStr.c_str(), "ab");
-    fwrite(outstr,sizeof(char), strlen(outstr),outfile);
-    fflush(outfile);
-    fclose(outfile);
+    if (outfile){
+        fwrite(outstr,sizeof(char), strlen(outstr),outfile);
+        fflush(outfile);
+        fclose(outfile);
+    } 
+    else{
+        std::string message = "Could not open " + outfileStr;
+        generateLog("logs/",message);
+    }
+
+    outfile = fopen(outfileMirrorStr.c_str(), "ab");
+    if (outfile){
+        fwrite(outstr,sizeof(char), strlen(outstr),outfile);
+        fflush(outfile);
+        fclose(outfile);
+    }
+    else{
+        std::string message = "Could not open " + outfileStr;
+        generateLog("logs/",message);
+    }
 
     //Change permissions
-    std::string cmd = "chmod 755 " + outfileStr;
-    system(cmd.c_str());
+    simpleChmod(outfileStr);
+    simpleChmod(outfileMirrorStr);
 }
 
 double Statistics::getContrastRatio(Mat &image){
