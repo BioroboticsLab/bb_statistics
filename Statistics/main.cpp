@@ -19,6 +19,7 @@
 #include <stdlib.h>     /* system, NULL, EXIT_FAILURE */
 
 int main(int argc, char *argv[]) {
+beeStatistics::Statistics *stats[4];
     // QApplication app(argc, argv);
     SettingsIAC::setConf("configStatistics.json");
     SettingsIAC *set = SettingsIAC::getInstance();

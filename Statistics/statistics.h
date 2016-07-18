@@ -99,6 +99,19 @@ private:
     //Timestamp used on analysis
     std::string _timestamp;
 
+
+    /**
+     * @brief Applies 'getContrastRatio' to 5 sections of an image
+     *
+     * Sections are in the dice-5 pattern, each 200px^2. Minimum image size is
+     * 800x800px.
+     *
+     * @param The input image
+     * @param (output) The difference between highest and lowest segment's contrast
+     * @return Contrast ratio or -1 if image to small.
+     */
+    double getContrastRatioSegmented(cv::Mat *image, double *minMax);
+
     /**
      * @brief Gets the contrast ratio of a Matrix
      *

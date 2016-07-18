@@ -135,34 +135,74 @@ void Statistics::analyse(cv::Mat *ref, std::string outfileStr, std::string outfi
     double variance = getVariance(mat);
     double contrast = avgHistDifference(*ref, mat);
     double noise = noiseEstimate(mat);
+    double cratioMinMax = 0.0;
+    double cratio = getContrastRatioSegmented(&mat, &cratioMinMax);
 
-    sprintf(outstr, "Cam_%d_%s\t%f\t%f\t%f\t%f\n", _qconf->camid, _timestamp.c_str(), smd, variance, contrast, noise);
+    sprintf(outstr, "Cam_%d_%s\t%f\t%f\t%f\t%f\t%f\t%f\n", _qconf->camid, _timestamp.c_str(), 
+        smd, variance, contrast, noise, cratio, cratioMinMax);
 
     FILE* outfile = fopen(outfileStr.c_str(), "ab");
     if (outfile){
-        fwrite(outstr,sizeof(char), strlen(outstr),outfile);
+        fwrite(outstr,sizeof(char), strlen(outstr), outfile);
         fflush(outfile);
         fclose(outfile);
     } 
     else{
         std::string message = "Could not open " + outfileStr;
-        generateLog("logs/",message);
+        generateLog("logs/", message);
     }
 
     outfile = fopen(outfileMirrorStr.c_str(), "ab");
     if (outfile){
-        fwrite(outstr,sizeof(char), strlen(outstr),outfile);
+        fwrite(outstr,sizeof(char), strlen(outstr), outfile);
         fflush(outfile);
         fclose(outfile);
     }
     else{
         std::string message = "Could not open " + outfileStr;
-        generateLog("logs/",message);
+        generateLog("logs/", message);
     }
 
     //Change permissions
     simpleChmod(outfileStr);
     simpleChmod(outfileMirrorStr);
+}
+
+double Statistics::getContrastRatioSegmented(Mat *image, double *minMax){
+    Mat blur(image->size(), cv::DataType<double>::type);
+    double ratios[5];
+    double avgRatio = 0.0;
+    double max = 0.0;
+    double min = 1.0;
+    int ws = 200; //Half windows size
+
+    //Blur the image to clear outliers
+    cv::medianBlur(*image, blur, 5);
+
+    int w = blur.size().width;
+    int h = blur.size().height;
+    if (w < 800 || h < 800)
+         return(-1.0);
+
+    cv::Mat center   = cv::Mat(blur, cv::Rect((w/2-ws),   (h/2-ws),   2*ws, 2*ws)); 
+    cv::Mat leftTop  = cv::Mat(blur, cv::Rect((w/4-ws),   (h/4-ws),   2*ws, 2*ws)); 
+    cv::Mat rightTop = cv::Mat(blur, cv::Rect((w/4*3-ws), (h/4-ws),   2*ws, 2*ws)); 
+    cv::Mat leftBot  = cv::Mat(blur, cv::Rect((w/4-ws),   (h/4*3-ws), 2*ws, 2*ws)); 
+    cv::Mat rightBot = cv::Mat(blur, cv::Rect((w/4*3-ws), (h/4*3-ws), 2*ws, 2*ws)); 
+
+    ratios[0] = getContrastRatio(center);
+    ratios[1] = getContrastRatio(leftTop);
+    ratios[2] = getContrastRatio(rightTop);
+    ratios[3] = getContrastRatio(leftBot);
+    ratios[4] = getContrastRatio(rightBot);
+
+    for (int i=0; i < 5; i++){
+        avgRatio += ratios[i];
+        ratios[i] > max ? max = ratios[i] : ( ratios[i] < min ? min = ratios[i] : 0 );
+    }
+    avgRatio = avgRatio / 5.0;
+    *minMax  = max - min;
+    return(avgRatio);
 }
 
 double Statistics::getContrastRatio(Mat &image){
