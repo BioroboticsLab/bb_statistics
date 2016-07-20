@@ -23,6 +23,7 @@ static const std::string DOIMSAVE               = "IMSTATISTICS.DOIMSAVE";
 static const std::string ANALYSISFILE           = "IMSTATISTICS.ANALYSISFILE";
 static const std::string ANALYSISFILEMIRROR     = "IMSTATISTICS.ANALYSISFILEMIRROR";
 static const std::string SCALINGFACTOR          = "IMSTATISTICS.SCALINGFACTOR";
+static const std::string CRWINDOWSIZE           = "IMSTATISTICS.CRWINDOWSIZE";
 static const std::string TARGET1                = "IMSTATISTICS.TARGET1";
 static const std::string TARGET2                = "IMSTATISTICS.TARGET2";
 static const std::string TARGET3                = "IMSTATISTICS.TARGET3";

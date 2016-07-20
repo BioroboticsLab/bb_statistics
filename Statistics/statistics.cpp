@@ -170,19 +170,21 @@ void Statistics::analyse(cv::Mat *ref, std::string outfileStr, std::string outfi
 
 double Statistics::getContrastRatioSegmented(Mat *image, double *minMax){
     Mat blur(image->size(), cv::DataType<double>::type);
+    SettingsIAC *set = SettingsIAC::getInstance();
+    double ws = set->getValueOfParam<double>(IMSTATISTICS::CRWINDOWSIZE) / 2.0;
     double ratios[5];
     double avgRatio = 0.0;
     double max = 0.0;
     double min = 1.0;
-    int ws = 200; //Half windows size
+    //int ws = 200; //Half windows size
 
     //Blur the image to clear outliers
     cv::medianBlur(*image, blur, 5);
 
     int w = blur.size().width;
     int h = blur.size().height;
-    if (w < 800 || h < 800)
-         return(-1.0);
+    //if (w < 800 || h < 800)
+    //     return(-1.0);
 
     cv::Mat center   = cv::Mat(blur, cv::Rect((w/2-ws),   (h/2-ws),   2*ws, 2*ws)); 
     cv::Mat leftTop  = cv::Mat(blur, cv::Rect((w/4-ws),   (h/4-ws),   2*ws, 2*ws)); 

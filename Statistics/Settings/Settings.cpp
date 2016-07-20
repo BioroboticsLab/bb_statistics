@@ -24,6 +24,7 @@ const boost::property_tree::ptree SettingsIAC::getDefaultParams() {
     pt.put(IMSTATISTICS::DOANALYSIS,          1);
     pt.put(IMSTATISTICS::DOIMSAVE,            1);
     pt.put(IMSTATISTICS::SCALINGFACTOR,       2.0);
+    pt.put(IMSTATISTICS::CRWINDOWSIZE,        800.0);
     pt.put(IMSTATISTICS::TARGET1,             "/mnt/flip/cam0.jpg");
     pt.put(IMSTATISTICS::TARGET2,             "/mnt/flip/cam1.jpg");
     pt.put(IMSTATISTICS::TARGET3,             "/mnt/flip/cam2.jpg");
