@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  **
  ** Contact: moenck@zedat.fu-berlin.de
  **
@@ -65,7 +65,7 @@ void Statistics::configShdMem(EncoderQualityConfig *p_qconf){
     _lockpos                = _height*_width; //32 is w,h,camid ; 64 is timestamp
     _memsize                = _height*_width + 32 + 64+sizeof(boost::interprocess::interprocess_mutex);
 
-    _image = (char*) malloc (_width*_height);
+    _image = static_cast<unsigned char*>(malloc(_width*_height));
 
     /* make the key: */
     if ((_key = ftok(ftopkFile.c_str(), 'R')) == -1) /*Here the file must exist */
@@ -89,7 +89,7 @@ void Statistics::configShdMem(EncoderQualityConfig *p_qconf){
     }
 
     /* attach to the segment to get a pointer to it: */
-    _data = shmat(_shmid, (void *)0,0);
+    _data = static_cast<char*>(shmat(_shmid, (void *)0,0));
     if (_data == (char *)(-1)) {
         perror("shmat");
         std::exit(1);
@@ -378,7 +378,7 @@ std::string Statistics::getTimestamp(){
     timeinfo=localtime(&tv.tv_sec);
 
 
-    sprintf(timeresult, "%d%.2d%.2d%.2d%.2d%.2d_%06d",
+    sprintf(timeresult, "%d%.2d%.2d%.2d%.2d%.2d_%06ld",
             timeinfo -> tm_year + 1900,
             timeinfo -> tm_mon  + 1,
             timeinfo -> tm_mday,

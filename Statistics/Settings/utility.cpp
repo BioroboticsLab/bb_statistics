@@ -1,4 +1,4 @@
-/*
+﻿/*
  * utility.cpp
  *
  *  Created on: Nov 11, 2015
@@ -99,7 +99,7 @@ std::string getTimestamp(){
     timeinfo=localtime(&tv.tv_sec);
 
 
-    sprintf(timeresult, "%d-%.2d-%.2dT%.2d:%.2d:%.2d.%03d%s",
+    sprintf(timeresult, "%d-%.2d-%.2dT%.2d:%.2d:%.2d.%03ld%s",
             timeinfo -> tm_year + 1900,
             timeinfo -> tm_mon  + 1,
             timeinfo -> tm_mday,
