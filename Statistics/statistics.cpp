@@ -369,7 +369,7 @@ double Statistics::noiseEstimate(Mat image){
 std::string Statistics::getTimestamp(){
 #if __linux__
     struct tm 	*timeinfo;
-    char		timeresult[15];
+    char		timeresult[64];
     struct timeval 	tv;
     struct timezone tz;
     struct tm 	*tm;

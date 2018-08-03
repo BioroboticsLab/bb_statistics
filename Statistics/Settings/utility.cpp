@@ -90,7 +90,7 @@ std::string get_utc_offset_string() {
 std::string getTimestamp(){
 #if __linux__
     struct          tm * timeinfo;
-    char            timeresult[32];
+    char            timeresult[64];
     struct timeval  tv;
     struct timezone tz;
     struct tm       *tm;
