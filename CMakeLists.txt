@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 2.6)
+﻿cmake_minimum_required(VERSION 2.6)
 #(Minimal benötigte CMake-Version wenn z.B. bestimmte CMake-Kommandos benutzt werden)
 
 cmake_policy (SET CMP0020 NEW)
 #cmake_policy(SET CMP0054 NEW)
 
 # Der Projektname
-project(bb_imageacquisition)
+project(bb_imagestatistics)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -27,13 +27,13 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     # using Clang or GCC
     # minimal optimmization and debug symbols for debug builds
-    set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3 -g -rdynamic")
+	set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3 -g ")
     # enable optimization for release builds
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -DQT_NO_DEBUG")
     # enable C++1y
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -fPIE")
     # enable all warnings
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra  -Woverloaded-virtual -Wnon-virtual-dtor -Wsign-promo -Wno-missing-braces -fpermissive") #-pedantic
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Woverloaded-virtual -Wnon-virtual-dtor -Wsign-promo -Wno-missing-braces -pedantic ")
     # warnings are errors
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wno-error=unused-variable -Wno-error=unused-parameter")
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
