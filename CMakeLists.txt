@@ -22,16 +22,16 @@ find_package(OpenCV REQUIRED)
 
 add_executable(
     ${PROJECT_NAME}
-    src/Settings/ParamNames.h
-    src/Settings/Settings.h
+    src/Settings/ParamNames.hpp
+    src/Settings/Settings.hpp
     src/Settings/Settings.cpp
-    src/Settings/StringTranslator.h
+    src/Settings/StringTranslator.hpp
     src/Settings/StringTranslator.cpp
-    src/Settings/stringTools.h
+    src/Settings/stringTools.hpp
     src/Settings/stringTools.cpp
-    src/Settings/utility.h
+    src/Settings/utility.hpp
     src/Settings/utility.cpp
-    src/statistics.h
+    src/statistics.hpp
     src/statistics.cpp
     src/main.cpp)
 

@@ -1,4 +1,4 @@
-#include "Settings.h"
+#include "Settings.hpp"
 
 #include "boost/program_options.hpp"
 

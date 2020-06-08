@@ -11,7 +11,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <string>
-#include "Settings/Settings.h"
+#include "Settings/Settings.hpp"
 
 #include <boost/interprocess/sync/interprocess_mutex.hpp>
 

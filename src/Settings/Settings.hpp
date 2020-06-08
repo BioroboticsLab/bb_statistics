@@ -7,9 +7,9 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 
-#include "stringTools.h" // (un)escape_non_ascii
-#include "StringTranslator.h"
-#include "ParamNames.h"
+#include "stringTools.hpp" // (un)escape_non_ascii
+#include "StringTranslator.hpp"
+#include "ParamNames.hpp"
 
 #include <fstream>
 #include <iostream>

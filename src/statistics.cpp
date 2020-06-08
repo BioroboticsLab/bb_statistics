@@ -9,7 +9,7 @@
  **
  ****************************************************************************/
 
-#include "statistics.h"
+#include "statistics.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,14 +21,13 @@
 #include <unistd.h> //usleep
 
 
-#include "Settings/utility.h"
+#include "Settings/utility.hpp"
 
 #include <math.h>       /* cos */
 #include <vector>
 #include <algorithm>
 #include <iostream>
 #ifdef WIN32
-#include <windows.h>
 #include <stdint.h>
 #endif
 #define PI 3.14159265
@@ -41,7 +40,6 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "windows.h"
 #endif
 
 namespace beeStatistics {

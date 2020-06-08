@@ -1,4 +1,4 @@
-#include "StringTranslator.h"
+#include "StringTranslator.hpp"
 /*
 namespace {
 typedef GUIPARAM::MediaType EnumType;

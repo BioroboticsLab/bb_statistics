@@ -5,7 +5,7 @@
  *      Author: hauke
  */
 
-#include "utility.h"
+#include "utility.hpp"
 
 #include <time.h>
 #if __linux__
@@ -14,7 +14,6 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "windows.h"
 #endif
 
 #include <qdir.h>       //QT stuff

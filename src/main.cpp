@@ -9,9 +9,9 @@
  **
  ****************************************************************************/
 
-#include "statistics.h"
-#include "Settings/Settings.h"
-#include "Settings/utility.h"
+#include "statistics.hpp"
+#include "Settings/Settings.hpp"
+#include "Settings/utility.hpp"
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <unistd.h>
