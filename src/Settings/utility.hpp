@@ -11,33 +11,33 @@
 #include <string>
 #include <QString>
 
-    /**
-     * @brief Generates a log message to log.txt in the given path.
-     *
-     * @param Path to the log.txt file
-     * @param Message to emit
-     */
-     void generateLog(QString path, QString message);
+/**
+ * @brief Generates a log message to log.txt in the given path.
+ *
+ * @param Path to the log.txt file
+ * @param Message to emit
+ */
+void generateLog(QString path, QString message);
 
-    /**
-     * @brief Wrapper around the QString version
-     *
-     * @param Path to the log.txt file
-     * @param Message to emit
-     */
-     void generateLog(std::string path, std::string message);
+/**
+ * @brief Wrapper around the QString version
+ *
+ * @param Path to the log.txt file
+ * @param Message to emit
+ */
+void generateLog(std::string path, std::string message);
 
-    /**
-     * @brief Sets file to 0755 and logs errors
-     *
-     * @param Path to the file
-     */
-     int simpleChmod(std::string file);
+/**
+ * @brief Sets file to 0755 and logs errors
+ *
+ * @param Path to the file
+ */
+int simpleChmod(std::string file);
 
-     //This file is a mirror from bb_imgAcquisition
-     //https://git.imp.fu-berlin.de/bioroboticslab/bb_imgacquisition/blob/nvEncoder/ImgAcquisition/settings/utility.h
+// This file is a mirror from bb_imgAcquisition
+// https://git.imp.fu-berlin.de/bioroboticslab/bb_imgacquisition/blob/nvEncoder/ImgAcquisition/settings/utility.h
 
-     std::string get_utc_offset_string();
-     std::string getTimestamp();
+std::string get_utc_offset_string();
+std::string getTimestamp();
 
 #endif /* UTILITY_H_ */

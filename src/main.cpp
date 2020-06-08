@@ -16,16 +16,17 @@
 #include <string>
 #include <unistd.h>
 
-#include <stdlib.h>     /* system, NULL, EXIT_FAILURE */
+#include <stdlib.h> /* system, NULL, EXIT_FAILURE */
 
-int main(int argc, char *argv[]) {
-beeStatistics::Statistics *stats[4];
+int main(int argc, char* argv[])
+{
+    beeStatistics::Statistics* stats[4];
     // QApplication app(argc, argv);
     SettingsIAC::setConf("configStatistics.json");
-    SettingsIAC *set = SettingsIAC::getInstance();
+    SettingsIAC*         set = SettingsIAC::getInstance();
     EncoderQualityConfig qconf[4];
-    std::string outfileStr = "analysis.txt";
-    std::string outfileMirroStr = "analysisMirror.txt";
+    std::string          outfileStr      = "analysis.txt";
+    std::string          outfileMirroStr = "analysisMirror.txt";
 
     for (int i = 0; i < 4; i++)
         qconf[i] = set->getBufferConf(i);
@@ -44,31 +45,37 @@ beeStatistics::Statistics *stats[4];
 
     FILE* fp = fopen("refIm.jpg", "r");
 
-    beeStatistics::Statistics *stat[4];
+    beeStatistics::Statistics* stat[4];
     for (int i = 0; i < 4; i++)
         stat[i] = new beeStatistics::Statistics();
 
-    if (fp) {
+    if (fp)
+    {
         ref = cv::imread("refIm.jpg", cv::IMREAD_GRAYSCALE);
         fclose(fp);
-    } else {
-        std::cout << "Warning: not found reference image refIm.jpg."
-                << std::endl;
+    }
+    else
+    {
+        std::cout << "Warning: not found reference image refIm.jpg." << std::endl;
     }
 
     for (int i = 0; i < 4; i++)
         if (qconf[i].enabled == 1)
             stat[i]->configShdMem(&qconf[i]);
 
-    while (true) {
-        for (int i = 0; i < 4; i++) 
+    while (true)
+    {
+        for (int i = 0; i < 4; i++)
             if (qconf[i].enabled == 1)
                 stat[i]->grabRecentImage();
 
-        for (int i = 0; i < 4; i++) {
-            if (qconf[i].enabled == 1) {
+        for (int i = 0; i < 4; i++)
+        {
+            if (qconf[i].enabled == 1)
+            {
 
-                if (doimsave == 1) {
+                if (doimsave == 1)
+                {
                     stat[i]->saveImage(outFlip[i]);
                     simpleChmod(outFlip[i]);
                 }
