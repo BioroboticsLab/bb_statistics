@@ -49,7 +49,7 @@ beeStatistics::Statistics *stats[4];
         stat[i] = new beeStatistics::Statistics();
 
     if (fp) {
-        ref = cv::imread("refIm.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+        ref = cv::imread("refIm.jpg", cv::IMREAD_GRAYSCALE);
         fclose(fp);
     } else {
         std::cout << "Warning: not found reference image refIm.jpg."
